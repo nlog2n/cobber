@@ -1,0 +1,39 @@
+
+TODO list:
+
+namespace flattening:
+需要将"namespace flatten"作为一个feature单独列出来吗？ 
+Dotfuscator has a feature whereby it can "flatten and rename" the namespace. This is quite useful and I haven't had any issues with it. But current cobber version does not support this functionality.
+
+
+Injection code目前是作为一个单独的dll（但是基于.net 2.0)和主程序放在一起，能否作为一个project一起编译进去。
+   注: 这个打算放弃，因为主程序打算也要obfuscated,但Cobber.Injections.dll中的类名被主程序大量用到，比如
+      AssemblyDefinition.ReadAssembly(..)
+      GetType("...")
+      type.Methods.search by method name
+    而这中间的字符串名字是不能被改动的。
+
+
+XAP file支持, 以及non-assembly文件的加入。
+
+
+
+
+
+
+***********************
+Issues:
+
+
+bug 1:  NameHelper  different renaming or random problem. 注意从AddEntry查起。
+
+
+bug 2:  packing
+
+    Packing的目的是将所有assembly输出到一个exe中，并压缩大小。 目前似乎压缩比不够好。
+           
+    另外发现Confuser v1.9启用packing后生成的cipherbox.exe有点问题：不显示文件列表！！使用Confuser v1.9 bin下载程序也一样！！
+    cobber如果采取packing without obfuscation, 则cipherbox pdf,zip文件能够处理，而office文件不能处理。
+    还一个原因 : packed后一些 DisplayText and Value property get renamed and thus main program cannot find the property at runtime. can try excluding renaming.
+***********************
+

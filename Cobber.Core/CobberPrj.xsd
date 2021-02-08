@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.nlog2n.com"
+           xmlns="http://www.nlog2n.com"
+           attributeFormDefault="unqualified"
+           elementFormDefault="qualified" >
+
+  <xs:simpleType name="memberType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="method"/>
+      <xs:enumeration value="field"/>
+      <xs:enumeration value="property"/>
+      <xs:enumeration value="event"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="argument">
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="value" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="obfuscation">
+    <xs:sequence>
+      <xs:element name="argument" type="argument" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="obfsetting">
+    <xs:sequence>
+      <xs:element name="obfuscation" type="obfuscation" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="member">
+    <xs:sequence>
+      <xs:element name="member" type="member" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="sig" type="xs:string" use="required" />
+    <xs:attribute name="type" type="memberType" use="required" />
+    <xs:attribute name="config" type="xs:string" use="optional"/>
+    <xs:attribute name="inherit" type="xs:boolean" use="optional"/>
+    <xs:attribute name="applytomembers" type="xs:boolean" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="type">
+    <xs:sequence>
+      <xs:element name="type" type="type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="member" type="member" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="config" type="xs:string" use="optional"/>
+    <xs:attribute name="inherit" type="xs:boolean" use="optional"/>
+    <xs:attribute name="applytomembers" type="xs:boolean" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="namespace">
+    <xs:sequence>
+      <xs:element name="type" type="type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="config" type="xs:string" use="optional"/>
+    <xs:attribute name="inherit" type="xs:boolean" use="optional"/>
+    <xs:attribute name="applytomembers" type="xs:boolean" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="module">
+    <xs:sequence>
+      <xs:element name="namespace" type="namespace" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="config" type="xs:string" use="optional"/>
+    <xs:attribute name="inherit" type="xs:boolean" use="optional"/>
+    <xs:attribute name="applytomembers" type="xs:boolean" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="assembly">
+    <xs:sequence>
+      <xs:element name="module" type="module" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="path" type="xs:string" use="required" />
+    <xs:attribute name="isMain" type="xs:boolean" default="false" />
+    <xs:attribute name="config" type="xs:string" use="optional"/>
+    <xs:attribute name="inherit" type="xs:boolean" use="optional"/>
+    <xs:attribute name="applytomembers" type="xs:boolean" use="optional"/>
+  </xs:complexType>
+
+  <xs:element name="project">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="obfsetting" type="obfsetting" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="packer" type="obfuscation" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="assembly" type="assembly" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="outputDir" type="xs:string" use="required" />
+      <xs:attribute name="snKey" type="xs:string" use="optional" />
+      <xs:attribute name="preset" type="xs:string" default="none" />
+      <xs:attribute name="seed" type="xs:string" use="optional"/>
+      <xs:attribute name="debug" type="xs:boolean" default="false" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

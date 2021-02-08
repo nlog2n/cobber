@@ -1,0 +1,17 @@
+
+How to use the rules? 
+
+Question:
+How to use different rules for specific files, such as by a mask, or directly selected items?
+
+
+Answer:
+The rules are not per files, but per item. For example, if you want to include all items under namespace "App.Namespace", you can use "App.Namespace..*" as the rule. The rule is a regex that matches the signature of the specific items.
+
+
+Question:
+Do you foresee such a possibility? Much would it easier to use. I have a group of files which may require a different type of security, all files can be loaded at the same time.
+
+
+Answer:
+The assembly doesn't contains the required information of different files. I suggest that you could try adding the classes contained in the files.

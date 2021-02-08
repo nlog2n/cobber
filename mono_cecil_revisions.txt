@@ -1,0 +1,33 @@
+The modification in this version of Mono.Cecil added some specific feature that exposed lower representation of metadata, which most common users would not need to use it. To avoid complicating their official version, it's better keep a local copy here.
+
+
+Mono.Cecil based on version 0.9.4
+
+==============================
+
+
+将symbols\pdb\Mono.Cecil.Pdb.csproj 移到上两级目录与其他cecil子目录平级,它包含两个目录：
+   Microsoft.Cci.Pdb   轻微修改
+   Mono.Cecil.Pdb
+          PdbHelper.cs 等轻微修改
+
+==============================
+
+将rocks\Mono.Cecil.Rocks.csproj 移到上一级目录与其他cecil子目录平级, 它包含1个目录：
+   Mono.Cecil.Rocks
+     用到的函数：
+          ModuleDefinitionRocks.cs\GetAllTypes(), whole file
+          Functional.cs\Functional class, whole file
+          TypeDefinitionRocks.cs\GetStaticConstructor()
+          MethodBodyRocks.cs\MethodBodyRocks class, whole file
+
+Confuser版本将之融合成一个Rocks.cs放在Core里面，并未改动Mono.Cecil.Rocks.
+所以可全部移植过来。
+
+
+==============================
+
+将symbols\mdb\Mono.Cecil.Mdb.csproj 移到上两级目录与其他cecil子目录平级,它包含两个目录：
+   Mono.Cecil.Mdb
+   Mono.CompilerServices.SymbolWriter
+   (目前未用到）

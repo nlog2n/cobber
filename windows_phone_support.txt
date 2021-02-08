@@ -1,0 +1,16 @@
+
+Windows Phone support 
+
+Is there any way to tell Confuser to target Windows Phone? By default, assemblies generated for Windows Phone, after being Confuser-ed, depend on libraries targeting a profile different from the one the phone runs, so the app crashes.
+
+
+Silverlight support
+
+due to the platform limitation of Silverlight, most of the critical protections of Confuser could not work properly. So Silverlight would not be officially supported in near future.
+But as a workaround, you can try excluding Silverlight classes from Renaming, and use only Constructor Proxy, Method Proxy and Control Flow obfuscation. It should work at the moment.
+
+
+
+
+
+20140506   关于混淆windows phone application:  XAP 文件实际上是一个压缩文件，解压后即可得到dll及资源文件。

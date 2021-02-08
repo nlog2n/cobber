@@ -1,0 +1,141 @@
+cobber是一个.Net C# 混淆软件，最初基于开源的confuser，http://confuser.codeplex.com/
+
+Confuser v1.9 built on    75461,     2012/6/23 updated， 可用
+listed build release:     78377,     2013/1/28 updated， 可用
+latest download: confuser-79642.zip, 2013/7/16, 混淆不成功， 有exception! 不用
+
+confuser的后续版本被作者放到了https://github.com/yck1509/ConfuserEx上面。
+
+build78377和build75461在界面上稍有区别， v1.9 界面有basic setting and advanced setting;而build78377则省略为rules，不是很容易用户友好。
+
+所以决定以 v1.9为基础，有什么bug再fix.
+
+=========================================
+
+第1步：如何去掉强签名 InternalsVisibleTo
+
+在每个工程文件中去掉sign->confuser.snk， 然后在每个需要强签名的地方如InternalsVisibleTo
+
+AssemblyInfo.cs文件：
+[assembly: InternalsVisibleTo("Mono.Cecil.Pdb, PublicKey=...")]
+改成
+[assembly: InternalsVisibleTo("Mono.Cecil.Pdb")]
+
+
+第2步：如果还有编译错误，统一换成.net 3.5 framework build
+
+
+========================================
+
+20140417   first cobber program
+
+20140430   Cobber -> CobberProject (Xml attributes) -> CobberParameter, and logger
+
+
+20140505   CobberProject class保存混淆工程的一些静态信息和参数。而Cobber实现功能函数。而Logger 日志功能也放在Cobber class中。
+
+           CobberProject 不引用Mono.Cecil, 以XML格式保存。只有Cobber需要引用Mono.Cecil.
+
+
+20140507   从75461已跟踪修改到76934 release build， 之后采取了选择性的修改至79642.
+
+一些主要的修改：
+    命令行格式； 
+    加入strong name .pfx文件支持。path = "xxx.pfx|password"
+   75806 "Add namespace into project system": NamespaceSetting class in Marker.cs.
+        涉及xml修改较多: 加入了"inherit setting" and "override default setting" in "advanced setting" UI. 已引入。
+   79631  支持重命名的不同方式，参数"type= enum NameMode"
+use 'type' parameter to control the name mode('unreadable', 'ascii', 'letters').
+   79258: ObfuscationAttribute support.patch by mistoll, merged
+   78072, 79257: relative path problem    使用BasePath比较好, merged
+
+
+??????????????????????????????????????????????
+未引入的修改：
+  77172: 看起来修改了Packing, LZMA压缩和解压缩， 以及NameAnalyzer. 不引入
+         但我加入了silverlight assembly detection in cobber initialization 
+
+  78056: new rule-based project system,  建议：不引入
+
+
+  78196, 78342: control flow, 涉及try/handler/filter处理，when trystart @first 建议：不引入
+
+
+  78363: constants/proxy. 建议：不引入
+
+  78377: merged OK, 
+  但以后的修改要小心：因为79642有问题！
+  似乎是Name Analyzer, vtable match出现问题！
+
+  78612, 78638, 78642: control flow, case when first statement begins with non-zero stack, merged
+  78730: 关于controlFlowConfusion.cs的修改较复杂，此项未引入！
+
+  78963: avoid array type in ctor proxy 依赖前面修改，建议不引入
+
+  78964: remove a check ???  Injection.cs 原来版本本来就没有check。  建议：无须引入
+  79256: optimize too much ??? 涉及NameAnalyzer.Virtual.cs 建议：不引入
+  79630: dynamic constant encryption  建议：不引入
+  79634: generic parameter not resolved in vtable matching 建议：不引入
+  79642: merged
+??????????????????????????????????????????????
+
+
+=====================
+
+总体说来，似乎control flow的混淆和 injection packing有些问题。
+
+
+20140509   修改完成一个尚存问题的版本， fix problem不能依靠confuser了。
+
+20140512   重新组织了一下程序结构。
+20140514   重新组织了一下程序结构。
+20140515   重新组织了一下程序结构。
+20140519   重新组织了一下程序结构。milestone
+             暂时comment掉ObfuscationAttributes, 另外判断IsMain待检查。
+
+20140520   fixed bug. now "Aggressive" w/o packing works!, but "Maximum"则cipherbox pdf,zip文件能够处理，而office文件不能处理。
+
+20140523   如果没有packing, 则 none, minimum, maximum OK, 但是normal, aggressive 不显示文件列表。
+
+20140529   命令行，不打包，可以：none, minimum, normal, maximum OK, 但aggressive 不显示文件列表。主要改动GetObject, Renaming = letters.
+
+20140603   命令行，不打包，可以：none, minimum, maximum OK, 但normal 不显示文件列表, aggressive只对ZIP文件有效。主要改动GetTargets及规则 in processing structural phases.
+
+
+20140604   milestone. 命令行，不打包，可以：none, minimum, aggressive, maximum OK, 但normal 有点问题：显示文件列表, 但只对ZIP文件有效，然后再试一下又OK了，有随机性！主要改动resovler and search path.
+
+
+20140701   加入了file drag and drop支持，具体就是
+   this.AllowDrop = true;
+   this.DragDrop += new DragEventHandler(this.Form1_DragDrop);
+   this.DragEnter += new DragEventHandler(this.Form1_DragEnter);
+详见： http://msdn.microsoft.com/zh-cn/library/system.windows.forms.control.allowdrop%28v=vs.110%29.aspx
+
+           此版本移除了之前的confuser工程，精简为6个projects: Cobber, Cobber.Console, Cobber.Core, Cobber.Injections, Cobber.Plugin, cecil。
+           
+           另外icon overlay尚待完成。
+
+20140704   完成icon overlay。
+           详见：http://madprops.org/blog/highlighting-treenodes-with-an-overlay-image/
+           另外由于修改了GetObfTargets(): some members could have children, 似乎混淆的问题解决了！
+
+20140714   minor changes.
+
+20140723   UI中关于obfuscation setting的部分: 
+            支持添加新setting,
+            支持双击修改setting name,
+            支持每个obfuscator的parameter列表。
+            在换名或删除setting的时候需要检查project.注意这项改动立即生效，不需要点OK button.
+
+           milestone: 界面工作已经完成！下面集中修复bug
+
+20140724   不关闭程序重新混淆的时候需要清空上次数据。解决方法：拷贝一份project saved in cobber.
+           精简了cobberdatabase map structure.
+
+20140725   修正了cobberdatabase: 因为只保留name,value,所以可能有重名的entry,属正常.另stacktrace translation 也会用到. 
+           进度条如果progressBar1.CreateGraphics()会产生 "out of memory"错误,所以暂时不显示百分比.
+
+
+20140729   找到packing后程序exception的原因：compressor.Pack -> ProtectStub() 此时project已发生变化，增加了assembly and module. 但还未commit code.
+
+20140801   main module in packer已经可以正常load and invoke, 但其他dll module resolve失败， App domain.assembly resolve event 根本未调用。

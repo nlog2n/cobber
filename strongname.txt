@@ -1,0 +1,67 @@
+关于strong name key带密码保护的.PFX文件支持：
+
+How to use StrongNameKeyPair with a password protected keyfile (pfx)?
+
+http://stackoverflow.com/questions/7556846/how-to-use-strongnamekeypair-with-a-password-protected-keyfile-pfx
+
+
+
+
+I am trying to programatically sign an assembly using a password protected keyfile (pfx). However when I try to use the StrongNameKeyPair I get the following exception.
+
+Unable to obtain public key for StrongNameKeyPair. at System.Reflection.StrongNameKeyPair.ComputePublicKey() at System.Reflection.StrongNameKeyPair.get_PublicKey()
+
+
+Answer:
+
+StrongNameKeyPair supports the snk file format directly in a constructor.
+
+StrongNameKeyPair also has a constructor with a byte[] input. I Believe it's enough to build it from a PFX (see my answer).
+
+
+Here is a piece of C# code that creates a StrongNameKeyPair object from a password-protected .PFX file:
+
+  public static StrongNameKeyPair GetStrongNameKeyPairFromPfx(string pfxFile, string password)
+    {
+        X509Certificate2Collection certs = new X509Certificate2Collection();
+        certs.Import(pfxFile, password, X509KeyStorageFlags.Exportable);
+        if (certs.Count == 0)
+            throw new ArgumentException(null, "pfxFile");
+
+        RSACryptoServiceProvider provider = certs[0].PrivateKey as RSACryptoServiceProvider;
+        if (provider == null) // not a good pfx file
+            throw new ArgumentException(null, "pfxFile");
+
+        return new StrongNameKeyPair(provider.ExportCspBlob(false));
+    }
+
+Comments:
+Although the X509Certificate2Collection is innecessary (just use X509Certificate2) this is the best solution i've found. 
+
+
+
+=======================
+
+Password Protected Stron-Name Key Support 
+I just added a quick support of pfx in changeset 76548.
+在Cobber.cs初始化的时候Initialize()读入。
+
+Had to look at the source code for working this out, but hope this helps someone else trying to use PFX with Confuser (Options -> Strong name key):
+
+    To use as password protected PFX via the Confuser UI, you first select the PFX file using the "..." button for "Strong name key".
+    Then go to the end of the textbox (now showing the file path of the PFX you just selected) and add a "|" separator before typing in your password to the PFX
+    Now you should be all ready to go... :D
+
+If you don't specify the password to your PFX in this way, at the moment Confuser will not prompt you with a very useful message (or even ask you to enter your password). Instead, it crashes with this message:
+
+Oops... Confuser crashed...
+
+System.ArgumentException
+Message : Unable to obtain public key for StrongNameKeyPair.
+Stack Trace :
+   at System.Reflection.StrongNameKeyPair.nGetPublicKey(Boolean exported, Byte[] array, String container)
+   at System.Reflection.StrongNameKeyPair.get_PublicKey()
+   at Confuser.Core.Confuser.Initialize() in d:\TeamCity\buildAgent\work\9cfb3a0868f86c70\Confuser.Core\Confuser.cs:line 568
+   at Confuser.Core.Confuser.Confuse(ConfuserParameter param) in d:\TeamCity\buildAgent\work\9cfb3a0868f86c70\Confuser.Core\Confuser.cs:line 257
+
+Please report it!!!

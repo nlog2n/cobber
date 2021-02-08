@@ -1,0 +1,33 @@
+工程格式样本
+=====
+<project outputDir="C:\Users\fanghui\Dropbox\Confuser\sample\Obf" snKey="" preset="normal" xmlns="http://cobber.nlog2n.com">
+  <packer id="compressor" />
+  <assembly path="C:\Users\fanghui\Dropbox\Confuser\sample\OleStorage.dll" />
+  <assembly path="C:\Users\fanghui\Dropbox\Confuser\sample\PdfCrypt.dll" />
+  <assembly path="C:\Users\fanghui\Dropbox\Confuser\sample\PdfUtil.dll" />
+  <assembly path="C:\Users\fanghui\Dropbox\Confuser\sample\ZipCrypt.dll" />
+  <assembly path="C:\Users\fanghui\Dropbox\Confuser\sample\CipherBox.exe" isMain="true" />
+  <assembly path="C:\Users\fanghui\Dropbox\Confuser\sample\CryptLib.dll" />
+  <assembly path="C:\Users\fanghui\Dropbox\Confuser\sample\FileLocker.dll" />
+  <assembly path="C:\Users\fanghui\Dropbox\Confuser\sample\OfficeCrypt.dll" />
+</project>
+======
+
+
+
+声明参数：
+ to specify settings in the project file you have to write it like this for example:
+
+<confusion id="mtd proxy">
+    <argument name="type" value="native" />
+    <argument name="onlyExternal" value="false" />
+</confusion>
+
+
+程序中修改参数：
+
+You can modify the line of
+
+mark.CurrentConfusions[confusion] = new SettingItem<IConfusion>() { Id = i.Feature };
+
+to add the parameters into SettingItem instance.

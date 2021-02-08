@@ -1,0 +1,36 @@
+Light theme:
+    <SolidColorBrush x:Key="BackgroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="SelectedBackgroundBrush" Color="{DynamicResource AccentColor}"/>
+    <SolidColorBrush x:Key="ShadeBackgroundBrush" Color="#DDDDDD"/>
+
+    <SolidColorBrush x:Key="ForegroundBrush" Color="#333333"/>
+    <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#A1A1A1"/>
+    <SolidColorBrush x:Key="SelectedForegroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="ShadeForegroundBrush" Color="#333333"/>
+
+    <SolidColorBrush x:Key="BorderBrush" Color="#CCCCCC"/>
+    <SolidColorBrush x:Key="ItemBorderBrush" Color="#DDDDDD"/>
+
+²Î¿¼
+https://github.com/kaedei/ModernUIforWPF/blob/master/FirstFloor.ModernUI/FirstFloor.ModernUI/Assets/ModernUI.Light.xaml
+
+http://www.colorpicker.com/FFFFFF
+
+
+////////////////
+
+previous dark theme xaml
+
+    <SolidColorBrush x:Key="BackgroundBrush" Color="#333333"/>
+    <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#111111"/>
+    <SolidColorBrush x:Key="SelectedBackgroundBrush" Color="#AAAAAA"/>
+    <SolidColorBrush x:Key="ShadeBackgroundBrush" Color="#555555"/>
+
+    <SolidColorBrush x:Key="ForegroundBrush" Color="#DDDDDD"/>
+    <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#808080"/>
+    <SolidColorBrush x:Key="SelectedForegroundBrush" Color="#333333"/>
+    <SolidColorBrush x:Key="ShadeForegroundBrush" Color="#FFFFFF"/>
+
+    <SolidColorBrush x:Key="BorderBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="ItemBorderBrush" Color="#DDDDDD"/>

@@ -1,0 +1,10 @@
+C:\Users\fanghui\Desktop\Dropbox\Cobber\src\bin\Debug\Cobber.Plugin.dll
+C:\Users\fanghui\Desktop\Dropbox\Cobber\src\bin\Debug\Cobber.Plugin.pdb
+C:\Users\fanghui\Desktop\Dropbox\Cobber\src\Cobber.Plugin\obj\Debug\Cobber.Plugin.csprojResolveAssemblyReference.cache
+C:\Users\fanghui\Desktop\Dropbox\Cobber\src\Cobber.Plugin\obj\Debug\Cobber.Plugin.dll
+C:\Users\fanghui\Desktop\Dropbox\Cobber\src\Cobber.Plugin\obj\Debug\Cobber.Plugin.pdb
+C:\Users\fanghui\Dropbox\Cobber\src\bin\Debug\Cobber.Plugin.dll
+C:\Users\fanghui\Dropbox\Cobber\src\bin\Debug\Cobber.Plugin.pdb
+C:\Users\fanghui\Dropbox\Cobber\src\Cobber.Plugin\obj\Debug\Cobber.Plugin.csprojResolveAssemblyReference.cache
+C:\Users\fanghui\Dropbox\Cobber\src\Cobber.Plugin\obj\Debug\Cobber.Plugin.dll
+C:\Users\fanghui\Dropbox\Cobber\src\Cobber.Plugin\obj\Debug\Cobber.Plugin.pdb
